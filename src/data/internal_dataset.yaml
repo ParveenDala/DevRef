@@ -1,0 +1,288 @@
+coroutines:
+  - title: "Kotlin Coroutines — Official Guide"
+    url: "https://kotlinlang.org/docs/coroutines-overview.html"
+    snippet: "Overview of coroutines, suspend functions, structured concurrency and usage patterns."
+  - title: "A beginner's guide to Kotlin Coroutines"
+    url: "https://medium.com/@segun/a-beginners-guide-to-kotlin-coroutines-34c03b14092b"
+    snippet: "Practical introduction with examples for async programming in Kotlin."
+  - title: "Coroutines and Android — Guide"
+    url: "https://developer.android.com/kotlin/coroutines"
+    snippet: "Android-specific coroutines guidance: ViewModelScope, lifecycle awareness, threading."
+  - title: "Structured Concurrency in Kotlin"
+    url: "https://github.com/Kotlin/kotlinx.coroutines/blob/master/README.md"
+    snippet: "Patterns for structured concurrency and coroutine scopes in kotlinx.coroutines."
+
+flow:
+  - title: "Kotlin Flow — Official Docs"
+    url: "https://kotlinlang.org/docs/flow.html"
+    snippet: "Cold asynchronous streams, operators, exception handling, backpressure basics."
+  - title: "Using StateFlow and SharedFlow in Android"
+    url: "https://developer.android.com/kotlin/flow/stateflow-and-sharedflow"
+    snippet: "When to choose StateFlow vs SharedFlow for UI and event streams."
+
+async-await:
+  - title: "async vs launch — coroutines explained"
+    url: "https://elizarov.medium.com/coroutines-async-vs-launch-6f7f3c2252f8"
+    snippet: "Differences between async and launch: return values, structured concurrency and best uses."
+  - title: "Best practices for Kotlin coroutines"
+    url: "https://proandroiddev.com/best-practices-for-kotlin-coroutines-2a6a1f6b6f2"
+    snippet: "Practical advice on scope, cancellation, exception handling and dispatchers."
+
+hilt:
+  - title: "Hilt — Android official docs"
+    url: "https://developer.android.com/training/dependency-injection/hilt-android"
+    snippet: "Hilt setup, @AndroidEntryPoint, ViewModel injection and component lifecycles."
+  - title: "Migrating from Dagger to Hilt"
+    url: "https://developer.android.com/training/dependency-injection/hilt-migration"
+    snippet: "Guidance to simplify Dagger usage by adopting Hilt."
+
+dagger:
+  - title: "Dagger 2 — official site"
+    url: "https://dagger.dev/"
+    snippet: "Dagger concepts, components, modules, scopes, and advanced patterns."
+  - title: "Understanding Dagger internals"
+    url: "https://medium.com/androiddevelopers/dagger-2-101-understanding-the-basics-a94f6b5f9358"
+    snippet: "Walkthrough of Dagger’s compile-time DI and component graph."
+
+dependency injection:
+  - title: "Dependency Injection — Patterns and Benefits"
+    url: "https://martinfowler.com/articles/injection.html"
+    snippet: "Why DI improves testability and design; conceptual patterns."
+  - title: "DI in Android: Patterns & anti-patterns"
+    url: "https://proandroiddev.com/dependency-injection-patterns-and-anti-patterns-456b8b2d7b2d"
+    snippet: "Common pitfalls and how to structure DI in Android apps."
+
+repository-pattern:
+  - title: "Repository pattern on Android — Guide"
+    url: "https://developer.android.com/topic/architecture"
+    snippet: "Repository helps separate data sources and provides single source of truth."
+  - title: "Repository pattern examples"
+    url: "https://medium.com/androiddevelopers/architecture-patterns-android-5e2a51a6d7f1"
+    snippet: "Example implementations using Room, Retrofit and ViewModel."
+
+mvvm:
+  - title: "MVVM on Android — Architecture Components"
+    url: "https://developer.android.com/jetpack/guide"
+    snippet: "Use ViewModel + LiveData/Flow to implement MVVM; separation of concerns."
+  - title: "MVVM vs MVI — Patterns compared"
+    url: "https://proandroiddev.com/mvvm-mvi-clean-architecture-which-one-should-you-use-3df09b3a4517"
+    snippet: "Trade-offs and when to prefer unidirectional data flow."
+
+mvi:
+  - title: "MVI for Android — Intro and patterns"
+    url: "https://proandroiddev.com/modern-android-architecture-mvi-c5a4e6b6c7b4"
+    snippet: "Unidirectional data flow, intents, states, reducers for predictable UI."
+
+clean-architecture:
+  - title: "Clean Architecture — Uncle Bob"
+    url: "https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html"
+    snippet: "High-level principles of Clean Architecture and separation of concerns."
+  - title: "Android Clean Architecture example"
+    url: "https://proandroiddev.com/clean-architecture-on-android-7d3a1d9a1a6b"
+    snippet: "Practical layering for Android projects: domain, data and presentation."
+
+singletons:
+  - title: "Singletons — pitfalls and alternatives"
+    url: "https://martinfowler.com/bliki/Singleton.html"
+    snippet: "Why singletons can be problematic for testing; alternatives like DI."
+  - title: "Avoiding singletons in Android"
+    url: "https://medium.com/androiddevelopers/avoiding-singletons-in-android-1fb0f10f7b90"
+    snippet: "Strategies: scoping, dependency injection, and service locators."
+
+testing:
+  - title: "Unit testing on Android — guide"
+    url: "https://developer.android.com/training/testing/unit-testing"
+    snippet: "How to write local unit tests with JUnit and Mockito or MockK."
+  - title: "Instrumented tests and UI testing"
+    url: "https://developer.android.com/training/testing/ui-testing"
+    snippet: "Espresso, UI Automator and end-to-end instrumentation testing."
+
+mockk:
+  - title: "MockK — Kotlin mocking library"
+    url: "https://mockk.io/"
+    snippet: "Kotlin-first mocking library with relaxed mocks and coroutine support."
+  - title: "Testing coroutines with MockK"
+    url: "https://proandroiddev.com/testing-coroutines-in-android-168ac5b8c6a6"
+    snippet: "Patterns for unit testing suspend functions and coroutine-based code."
+
+room:
+  - title: "Room — Persistence library (official)"
+    url: "https://developer.android.com/training/data-storage/room"
+    snippet: "Room database setup, migrations, DAOs and LiveData/Flow integration."
+  - title: "Room performance tips"
+    url: "https://developer.android.com/topic/performance/vitals/data-storage"
+    snippet: "Best practices for queries, transactions and avoiding main-thread work."
+
+retrofit:
+  - title: "Retrofit — Square"
+    url: "https://square.github.io/retrofit/"
+    snippet: "Type-safe HTTP client for Android and Kotlin; converters and interceptors."
+  - title: "OkHttp + Retrofit best practices"
+    url: "https://medium.com/google-developer-experts/best-practices-retrofit-okhttp-3b3f7b6d3d80"
+    snippet: "Connection pooling, timeouts, and logging guidelines."
+
+workmanager:
+  - title: "WorkManager — background processing"
+    url: "https://developer.android.com/topic/libraries/architecture/workmanager"
+    snippet: "Deferrable, guaranteed background work; chaining and constraints."
+  - title: "When to use WorkManager vs Services"
+    url: "https://proandroiddev.com/android-workmanager-or-services-which-one-to-choose-2c4a4c2b1f7"
+    snippet: "Comparison and correct use cases."
+
+performance:
+  - title: "Android performance patterns"
+    url: "https://developer.android.com/topic/performance"
+    snippet: "Memory, CPU, battery best practices for Android apps."
+  - title: "Detecting memory leaks"
+    url: "https://square.github.io/leakcanary/"
+    snippet: "Use LeakCanary to detect Activity/Fragment leaks during development."
+
+compose:
+  - title: "Jetpack Compose — Official docs"
+    url: "https://developer.android.com/jetpack/compose"
+    snippet: "Declarative UI toolkit for Android: state, recomposition, navigation."
+  - title: "Compose best practices"
+    url: "https://developer.android.com/jetpack/compose/best-practices"
+    snippet: "Performance tips, state hoisting, and modularization."
+
+livedata-stateflow:
+  - title: "LiveData vs StateFlow — when to use which"
+    url: "https://proandroiddev.com/livedata-vs-stateflow-when-to-use-them-9b2b8d8d1a2d"
+    snippet: "Comparison of characteristics: lifecycle awareness vs coroutines integration."
+  - title: "Using StateFlow in ViewModel"
+    url: "https://developer.android.com/kotlin/flow/stateflow-and-sharedflow"
+    snippet: "Patterns to expose UI state with StateFlow and combine with coroutines."
+
+gradle-modules:
+  - title: "Gradle for Android — modularization"
+    url: "https://developer.android.com/studio/build"
+    snippet: "Best practices for Gradle scripts, modules, and build variants."
+  - title: "Multimodule Android projects"
+    url: "https://medium.com/androiddevelopers/modularization-on-android-6ea1d1b9a8f7"
+    snippet: "How to split a monolith into feature and core modules."
+
+architecture-testing:
+  - title: "Testing architecture layers"
+    url: "https://developer.android.com/jetpack/architecture"
+    snippet: "Test ViewModel, repository and use cases separately for robust design."
+  - title: "Fake vs Mock — testing data layers"
+    url: "https://martinfowler.com/articles/mocksArentStubs.html"
+    snippet: "Guidance on test doubles and when to prefer in-memory fakes."
+
+kotlin-language:
+  - title: "Kotlin language reference"
+    url: "https://kotlinlang.org/docs/reference/"
+    snippet: "Official language reference: coroutines, DSLs, types, sealed classes."
+  - title: "Kotlin idioms and best practices"
+    url: "https://kotlinlang.org/docs/coding-conventions.html"
+    snippet: "Style conventions and idiomatic Kotlin patterns."
+
+sealed-classes:
+  - title: "Sealed classes in Kotlin"
+    url: "https://kotlinlang.org/docs/sealed-classes.html"
+    snippet: "Modeling restricted class hierarchies and exhaustive when expressions."
+
+generics-nullability:
+  - title: "Null safety & generics in Kotlin"
+    url: "https://kotlinlang.org/docs/null-safety.html"
+    snippet: "Null-safety operators, platform types and generics guidelines."
+
+architecture-components:
+  - title: "Android Jetpack components overview"
+    url: "https://developer.android.com/jetpack"
+    snippet: "ViewModel, LiveData, Room, Navigation, Paging and WorkManager."
+
+paging:
+  - title: "Paging 3 library — guide"
+    url: "https://developer.android.com/topic/libraries/architecture/paging/v3-overview"
+    snippet: "Paging data sources, remote mediation, and coroutine integration."
+
+paging-implementation:
+  - title: "Implementing infinite lists with Paging 3"
+    url: "https://medium.com/androiddevelopers/paging-in-action-6a9d1f3b8f1a"
+    snippet: "Examples of remote + local paging using Kotlin coroutines."
+
+error-handling:
+  - title: "Error handling patterns in Kotlin coroutines"
+    url: "https://kotlinlang.org/docs/exception-handling.html"
+    snippet: "Supervision, CoroutineExceptionHandler, and structured recovery."
+
+security:
+  - title: "Android security best practices"
+    url: "https://developer.android.com/security/best-practices"
+    snippet: "Secure storage, network encryption, and permission handling."
+
+logging:
+  - title: "Timber — Logging for Android"
+    url: "https://github.com/JakeWharton/timber"
+    snippet: "Lightweight logging wrapper, usage examples."
+
+analytics:
+  - title: "Analytics best practices for mobile apps"
+    url: "https://developers.google.com/analytics/devguides/collection/android/v4"
+    snippet: "Event design, privacy, and sampling considerations."
+
+ci-cd:
+  - title: "CI/CD for Android apps"
+    url: "https://developer.android.com/studio/ide"
+    snippet: "Set up continuous integration, testing and release pipelines."
+
+ux-performance:
+  - title: "App startup and cold-start optimization"
+    url: "https://developer.android.com/topic/performance/vitals/launch-time"
+    snippet: "Measures to reduce startup time and improve user experience."
+
+design-patterns-overview:
+  - title: "Common design patterns for mobile"
+    url: "https://refactoring.guru/design-patterns"
+    snippet: "Singleton, Factory, Repository, Observer, Strategy and when to apply them."
+
+repository-vs-service:
+  - title: "Repository vs Service patterns"
+    url: "https://martinfowler.com/eaaCatalog/repository.html"
+    snippet: "Choosing where to place business logic and data access."
+
+kotlin-flow-operators:
+  - title: "Flow operators guide"
+    url: "https://kotlinlang.org/docs/flow.html#transforming-flows"
+    snippet: "Map, flatMapLatest, filter, combine and practical examples."
+
+android-codelabs:
+  - title: "Android Codelabs — official tutorials"
+    url: "https://codelabs.developers.google.com/?cat=Android"
+    snippet: "Hands-on tutorials for Jetpack, Compose, testing, and more."
+
+youtube-coroutines:
+  - title: "Kotlin Coroutines by Roman Elizarov — talk"
+    url: "https://www.youtube.com/watch?v=mlGzv8k5C3U"
+    snippet: "Deep dive into coroutine design and best practices."
+
+youtube-android-arch:
+  - title: "Android Architecture Components — talk"
+    url: "https://www.youtube.com/watch?v=J4xCk3qYF0k"
+    snippet: "Guided examples for ViewModel, LiveData and Room."
+
+community-articles:
+  - title: "ProAndroidDev — collection"
+    url: "https://proandroiddev.com/"
+    snippet: "Community articles covering Android architecture and Kotlin practices."
+
+testing-coroutines:
+  - title: "Testing Kotlin coroutines"
+    url: "https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/"
+    snippet: "Utilities and patterns to test coroutine-based code."
+
+android-architecture-guidelines:
+  - title: "Android app architecture (official guidance)"
+    url: "https://developer.android.com/topic/architecture"
+    snippet: "High-level guidance to design modular and testable apps."
+
+code-reviews:
+  - title: "Effective code review practices"
+    url: "https://google.github.io/eng-practices/review/reviewer/"
+    snippet: "How to give constructive feedback during reviews."
+
+observability:
+  - title: "Observability in Android apps"
+    url: "https://developer.android.com/topic/performance/monitoring"
+    snippet: "Telemetry, logging and crash reporting best practices."

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="20" height="20"
+     viewBox="0 0 24 24"
+     fill="currentColor"
+     role="img"
+     aria-label="Google">
+    <path d="M12 2a10 10 0 1 0 0 20c5.52 0 10-4.48 10-10 0-.65-.07-1.29-.2-1.9H12v3.8h5.7A6.2 6.2 0 0 1 12 18.2a6.2 6.2 0 1 1 0-12.4c1.57 0 3 .57 4.1 1.5l2.6-2.6A10 10 0 0 0 12 2z"/>
+</svg>

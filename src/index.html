@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevRef : Learn while you fix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1877f2;
+            --primary-dark: #166fe5;
+            --on-primary: #ffffff;
+            --background: #f0f2f5;
+            --surface: #ffffff;
+            --on-surface: #333333;
+            --code-bg: #f6f8fa;
+            --outline: #d1d5db;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--on-surface);
+            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .container {
+            background-color: var(--surface);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+            max-width: 1400px;
+            width: 100%;
+        }
+        @media (min-width: 1024px) {
+            .container {
+                flex-direction: row;
+            }
+        }
+        .code-container, .comments-container {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .code-container {
+            flex-basis: 50%;
+            border-right: 1px solid var(--outline);
+        }
+        @media (max-width: 1023px) {
+            .code-container {
+                border-right: none;
+                border-bottom: 1px solid var(--outline);
+            }
+        }
+        pre {
+            background-color: var(--code-bg);
+            border: 1px solid var(--outline);
+            color: #333333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding: 1.5rem;
+            border-radius: 0 0 0.75rem 0.75rem;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .comment-thread {
+            border-left: none;
+        }
+        .comment-card {
+            background-color: var(--surface);
+            transition: box-shadow 0.3s ease-in-out;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+        }
+        .comment-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+        }
+        .bot-reply {
+            border-left: 4px solid var(--primary);
+            background-color: #e7f3ff;
+            margin-top: 0.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            position: relative;
+        }
+        .loader-bar {
+            width: 100%;
+            height: 4px;
+            background-color: #e2e8f0;
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+        .loader-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 50%;
+            background-color: var(--primary);
+            animation: move-loader 2s linear infinite;
+        }
+        @keyframes move-loader {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--outline);
+        }
+        .form-field-group {
+            transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out, margin-top 0.3s ease-in-out;
+            overflow: hidden;
+            height: 0;
+            opacity: 0;
+            margin-top: 0;
+        }
+        .form-field-group.is-visible {
+            opacity: 1;
+            height: auto;
+            margin-top: 0.75rem;
+        }
+        .input-with-border {
+            border: 1px solid var(--outline);
+            border-radius: 0.375rem;
+        }
+        @media (max-width: 640px) {
+            body {
+                padding: 0;
+            }
+            .container {
+                border-radius: 0;
+                height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="code-container w-full lg:w-1/2">
+        <header class="p-4">
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-1 text-primary">DevRef</h1>
+            <p class="text-base md:text-lg text-on-surface">PR_123 : Add new Kotlin file for database
+                service</p>
+        </header>
+        <div class="flex items-center justify-between bg-surface p-4 border border-outline border-b-0">
+            <span class="font-medium text-on-surface text-sm md:text-base">New File: <span class="text-on-surface/80">database/DatabaseService.kt</span></span>
+        </div>
+        <div id="tags-container"
+             class="px-4 pb-4 bg-surface border-x border-b border-outline flex flex-wrap gap-2"></div>
+        <pre id="code-block" class="text-sm md:text-base overflow-x-auto"><code class="language-kotlin text-on-surface">// Loading code...</code></pre>
+    </div>
+
+    <div class="comments-container w-full lg:w-1/2">
+        <header class="px-4 pt-4 relative">
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-1 text-primary">Reviewer's Comments</h1>
+            <p class="text-base md:text-lg text-on-surface">Comments and replies on this pull request.</p>
+            <button id="settings-btn"
+                    class="absolute top-4 right-4 text-gray-500 hover:text-gray-900 transition-colors duration-200 p-2 rounded-full">
+                <img src="icons/settings.svg" alt="Settings" class="w-6 h-6">
+            </button>
+        </header>
+        <div class="h-px bg-gray-300 mx-4 my-4"></div>
+        <div id="comments-scroll-area" class="p-4 flex-1 overflow-y-auto">
+            <div id="comments-container" class="space-y-6 pr-2"></div>
+        </div>
+
+        <div class="p-4 border-t-2 border-outline flex items-center space-x-4">
+            <input type="text" id="comment-input"
+                   class="flex-1 bg-background text-on-surface rounded-full py-3 px-4 resize-none border border-outline focus:outline-none focus:ring-2 focus:ring-primary h-12 overflow-hidden"
+                   placeholder="Add a comment...">
+            <button id="submit-btn"
+                    class="bg-primary hover:bg-primary-dark text-on-primary w-12 h-12 rounded-full transition-all duration-300 shadow-lg flex items-center justify-center">
+                <img src="icons/send.svg" alt="Send" class="w-6 h-6">
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Settings UI -->
+<div id="settings-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="text-xl font-bold">Settings</h3>
+            <button id="close-modal-btn"
+                    class="text-gray-400 hover:text-gray-700 p-1 rounded-full transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                     stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <div class="mt-6 space-y-6">
+            <div>
+                <label for="num-recommendations" class="block text-base font-medium text-gray-700 mb-2">Number of
+                    Recommendations</label>
+                <input type="number" id="num-recommendations"
+                       class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary px-4 py-2 input-with-border"
+                       value="3" min="1" max="10">
+            </div>
+            <div>
+                <label class="block text-base font-medium text-gray-700 mb-2">Sources</label>
+                <div class="space-y-3">
+                    <label class="flex items-center">
+                        <input type="checkbox" name="source" value="internal"
+                               class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded" checked>
+                        <span class="ml-3 text-base text-gray-700">Internal</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" id="google-source" name="source" value="google"
+                               class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                        <span class="ml-3 text-base text-gray-700">Google</span>
+                    </label>
+                    <div id="google-api-fields" class="space-y-3 pl-8 form-field-group">
+                        <div>
+                            <label for="google-api-key" class="block text-sm font-medium text-gray-500 mb-1">Google API
+                                Key</label>
+                            <input type="text" id="google-api-key"
+                                   class="block w-full rounded-md border-gray-400 shadow-sm focus:border-primary focus:ring-primary px-4 py-2 input-with-border"
+                                   placeholder="Enter your Google API Key">
+                        </div>
+                        <div>
+                            <label for="google-cse-key" class="block text-sm font-medium text-gray-500 mb-1">Google CSE
+                                Key</label>
+                            <input type="text" id="google-cse-key"
+                                   class="block w-full rounded-md border-gray-400 shadow-sm focus:border-primary focus:ring-primary px-4 py-2 input-with-border"
+                                   placeholder="Enter your Google CSE Key">
+                        </div>
+                    </div>
+                    <label class="flex items-center">
+                        <input type="checkbox" id="youtube-source" name="source" value="youtube"
+                               class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                        <span class="ml-3 text-base text-gray-700">YouTube</span>
+                    </label>
+                    <div id="youtube-api-fields" class="space-y-3 pl-8 form-field-group">
+                        <div>
+                            <label for="youtube-api-key" class="block text-sm font-medium text-gray-500 mb-1">YouTube
+                                API Key</label>
+                            <input type="text" id="youtube-api-key"
+                                   class="block w-full rounded-md border-gray-400 shadow-sm focus:border-primary focus:ring-primary px-4 py-2 input-with-border"
+                                   placeholder="Enter your YouTube API Key">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-6 flex justify-end space-x-3">
+            <button id="cancel-settings-btn"
+                    class="px-5 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200">
+                Cancel
+            </button>
+            <button id="save-settings-btn"
+                    class="px-5 py-2 text-sm font-bold text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200">
+                Save
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const codeBlock = document.getElementById('code-block');
+        const tagsContainer = document.getElementById('tags-container');
+        const commentInput = document.getElementById('comment-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const commentsScrollArea = document.getElementById('comments-scroll-area');
+        const commentsContainer = document.getElementById('comments-container');
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsModal = document.getElementById('settings-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const saveSettingsBtn = document.getElementById('save-settings-btn');
+        const cancelSettingsBtn = document.getElementById('cancel-settings-btn');
+        const numRecommendationsInput = document.getElementById('num-recommendations');
+        const sourceCheckboxes = document.querySelectorAll('input[name="source"]');
+
+        const googleSourceCheckbox = document.getElementById('google-source');
+        const youtubeSourceCheckbox = document.getElementById('youtube-source');
+        const googleApiFields = document.getElementById('google-api-fields');
+        const youtubeApiFields = document.getElementById('youtube-api-fields');
+        const googleApiKeyInput = document.getElementById('google-api-key');
+        const googleCseKeyInput = document.getElementById('google-cse-key');
+        const youtubeApiKeyInput = document.getElementById('youtube-api-key');
+
+        const initialSettings = {
+            num_recommendations: 3,
+            sources: ['internal'],
+            google_api_key: '',
+            google_cse_key: '',
+            youtube_api_key: ''
+        };
+        let settings = JSON.parse(localStorage.getItem('settings'));
+        if (!settings) {
+            settings = initialSettings;
+            localStorage.setItem('settings', JSON.stringify(settings));
+        }
+
+        const toggleApiFields = () => {
+            const googleEnabled = googleSourceCheckbox.checked;
+            googleApiFields.classList.toggle('is-visible', googleEnabled);
+            googleApiKeyInput.required = googleEnabled;
+            googleCseKeyInput.required = googleEnabled;
+
+            const youtubeEnabled = youtubeSourceCheckbox.checked;
+            youtubeApiFields.classList.toggle('is-visible', youtubeEnabled);
+            youtubeApiKeyInput.required = youtubeEnabled;
+        };
+
+        const loadSettings = () => {
+            numRecommendationsInput.value = settings.num_recommendations;
+            sourceCheckboxes.forEach(checkbox => {
+                checkbox.checked = settings.sources.includes(checkbox.value);
+            });
+            googleApiKeyInput.value = settings.google_api_key;
+            googleCseKeyInput.value = settings.google_cse_key;
+            youtubeApiKeyInput.value = settings.youtube_api_key;
+            // Initially toggle fields based on loaded settings
+            toggleApiFields();
+        };
+
+        const saveSettings = () => {
+            const newSettings = {
+                num_recommendations: parseInt(numRecommendationsInput.value, 10),
+                sources: Array.from(sourceCheckboxes)
+                                .filter(checkbox => checkbox.checked)
+                                .map(checkbox => checkbox.value),
+                google_api_key: googleApiKeyInput.value,
+                google_cse_key: googleCseKeyInput.value,
+                youtube_api_key: youtubeApiKeyInput.value
+            };
+            localStorage.setItem('settings', JSON.stringify(newSettings));
+            settings = newSettings;
+        };
+
+        googleSourceCheckbox.addEventListener('change', toggleApiFields);
+        youtubeSourceCheckbox.addEventListener('change', toggleApiFields);
+
+        settingsBtn.addEventListener('click', () => {
+            loadSettings();
+            settingsModal.style.display = 'flex';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            settingsModal.style.display = 'none';
+        });
+
+        cancelSettingsBtn.addEventListener('click', () => {
+            settingsModal.style.display = 'none';
+        });
+
+        saveSettingsBtn.addEventListener('click', () => {
+            saveSettings();
+            settingsModal.style.display = 'none';
+        });
+
+        settingsModal.addEventListener('click', (e) => {
+            if (e.target === settingsModal) {
+                settingsModal.style.display = 'none';
+            }
+        });
+
+
+        // Dynamically generates tags based on code content
+        const generateTags = (code) => {
+            const tagKeywords = {
+                'class': 'Kotlin',
+                'suspend': 'Coroutines',
+                'import androidx.room': 'Room',
+                'database': 'Database',
+                'interface': 'Interface',
+                'fun': 'Function'
+            };
+            const generatedTags = new Set();
+            const codeLowerCase = code.toLowerCase();
+
+            generatedTags.add('Android');
+            generatedTags.add('Kotlin');
+            for (const keyword in tagKeywords) {
+                if (codeLowerCase.includes(keyword)) {
+                    generatedTags.add(tagKeywords[keyword]);
+                }
+            }
+
+            tagsContainer.innerHTML = '';
+            generatedTags.forEach(tag => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-800';
+                tagEl.textContent = `#${tag}`;
+                tagsContainer.appendChild(tagEl);
+            });
+        };
+
+        try {
+            const response = await fetch('data/SampleCode.txt');
+            const code = await response.text();
+            codeBlock.textContent = code;
+            generateTags(code);
+        } catch (error) {
+            codeBlock.textContent = "// Error loading code: " + error.message;
+            console.error('Error fetching code:', error);
+        }
+
+        const getTags = () => {
+            const tagElements = tagsContainer.querySelectorAll('span');
+            return Array.from(tagElements).map(el => el.textContent.trim().replace('#', ''));
+        };
+
+        const getResourceIcon = (source) => {
+            switch(source.toLowerCase()) {
+                case 'youtube':
+                    return `<img src="icons/youtube.svg" alt="YouTube" class="w-5 h-5">`;
+                case 'google':
+                    return `<img src="icons/google.svg" alt="Google" class="w-5 h-5">`;
+                case 'internal':
+                    return `<img src="icons/internal.svg" alt="Internal" class="w-5 h-5">`;
+                default:
+                    return `<img src="icons/default.svg" alt="Link" class="w-5 h-5 text-gray-400">`;
+            }
+        };
+
+        const createCommentCard = (author, text) => {
+            const commentDiv = document.createElement('div');
+            commentDiv.className = `p-4 comment-card rounded-xl`;
+            commentDiv.innerHTML = `
+                <div class="flex items-center mb-2">
+                    <img src="https://placehold.co/48x48/d1d5db/6b7280?text=${author[0]}" alt="Avatar" class="w-6 h-6 rounded-full mr-3">
+                    <span class="font-medium text-sm text-on-surface/80">${author}</span>
+                </div>
+                <p class="text-on-surface text-base">${text}</p>
+            `;
+            return commentDiv;
+        };
+
+        const createBotReplyCard = (data, commentText, commentThread) => {
+                const replyDiv = document.createElement('div');
+                replyDiv.className = `p-4 bot-reply`;
+
+                const resourcesHtml = data.resources.length > 0 ?
+                    data.resources.map(resource =>
+                        `<a href="${resource.url}" target="_blank" class="text-primary hover:underline block mt-2 flex items-center">
+                            ${getResourceIcon(resource.source)}
+                            <span class="ml-2">${resource.title}</span>
+                        </a>`
+                    ).join('') :
+                    `Sorry, we could not find any recommendations for this comment. Please try again.`;
+
+                const contentHtml = data.resources.length > 0 ?
+                    `
+                    <div class="text-sm text-on-surface/70">
+                        <h4 class="font-bold mb-2">Recommended articles to get help to fix this comment:</h4>
+                        ${resourcesHtml}
+                    </div>
+                    ` :
+                    `<p class="text-on-surface/80">${resourcesHtml}</p>`;
+
+                replyDiv.innerHTML = `
+                    <button class="absolute top-2 right-2 text-primary w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300">
+                        <img src="icons/retry.svg" alt="Retry" class="w-5 h-5">
+                    </button>
+                    ${contentHtml}
+                `;
+
+                replyDiv.querySelector('button').addEventListener('click', async () => {
+                    await fetchAndRenderBotReply(commentText, commentThread);
+                });
+
+                return replyDiv;
+            };
+
+
+        const addErrorMessage = (message) => {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = "bg-red-200 text-red-800 p-4 rounded-lg border border-red-400 mt-4";
+            errorDiv.textContent = message;
+            commentsContainer.appendChild(errorDiv);
+        };
+
+        const fetchAndRenderBotReply = async (commentText, commentThread) => {
+            const tags = getTags().slice(0, 2);
+            const existingBotReply = commentThread.querySelector('.bot-reply');
+            if (existingBotReply) {
+                existingBotReply.remove();
+            }
+
+            const pendingBotReply = document.createElement('div');
+            pendingBotReply.className = 'p-4 bot-reply space-y-2';
+            pendingBotReply.innerHTML = `
+                <p class="text-on-surface/80 font-medium">Checking recommended articles to help with this comment...</p>
+                <div class="loader-bar"></div>
+            `;
+            commentThread.appendChild(pendingBotReply);
+            commentsScrollArea.scrollTop = commentsScrollArea.scrollHeight;
+            submitBtn.disabled = true;
+
+            try {
+                const settings = JSON.parse(localStorage.getItem('settings') || '{}');
+                const response = await fetch('http://127.0.0.1:5000/process-comment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ comment: commentText, tags: tags, settings: settings }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                if (data && data.response) {
+                    const finalBotReply = createBotReplyCard(data.response, commentText, commentThread);
+                    commentThread.replaceChild(finalBotReply, pendingBotReply);
+                } else {
+                    addErrorMessage("Failed to get a response from the backend.");
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                addErrorMessage("Could not connect to the backend server. Make sure it's running.");
+            } finally {
+                submitBtn.disabled = false;
+                commentsScrollArea.scrollTop = commentsScrollArea.scrollHeight;
+            }
+        };
+
+        commentInput.addEventListener('keydown', async (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                submitBtn.click();
+            }
+        });
+
+        submitBtn.addEventListener('click', async () => {
+            const commentText = commentInput.value.trim();
+            if (commentText === "") {
+                return;
+            }
+
+            const newCommentThread = document.createElement('div');
+            newCommentThread.className = 'comment-thread space-y-2';
+            newCommentThread.appendChild(createCommentCard("Reviewer", commentText));
+            commentsContainer.appendChild(newCommentThread);
+            commentInput.value = '';
+            commentsScrollArea.scrollTop = commentsScrollArea.scrollHeight;
+
+            await fetchAndRenderBotReply(commentText, newCommentThread);
+        });
+
+        // Initial settings load
+        loadSettings();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+pyyaml
+flask
+flask-cors
+httpx
+pydantic
+sentence-transformers
+
+# Optional providers (choose any)
+#google-api-python-client

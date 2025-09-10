@@ -1,0 +1,36 @@
+package com.example.app.database
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+
+// This is the main database class for the Room persistence library.
+// It defines the database structure and the data access objects (DAOs).
+@Database(entities = [User::class, Product::class], version = 1)
+abstract class AppDatabase : RoomDatabase() {
+
+// DAOs are used to interact with the data in the database.
+abstract fun userDao(): UserDao
+abstract fun productDao(): ProductDao
+
+companion object {
+    @Volatile
+    private var INSTANCE: AppDatabase? = null
+
+    // This method provides a singleton instance of the database.
+    fun getDatabase(context: Context): AppDatabase {
+        return INSTANCE ?: synchronized(this) {
+            // Creates a new database instance if one doesn't exist.
+            val instance = Room.databaseBuilder(
+                context.applicationContext,
+                AppDatabase::class.java,
+                "app_database"
+            ).build()
+            INSTANCE = instance
+            instance
+        }
+    }
+}
+
+}
